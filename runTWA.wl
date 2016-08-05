@@ -39,11 +39,17 @@ Dynamic[rr]
 start=makeDSolveStart[localHam,crosHam,observables];
 
 
-Timing[eachTWA={};
+(*Timing[eachTWA={};
 Table[
 AppendTo[eachTWA,singleRun[start,Flatten[discInitsOR],obsfun]];
 ,{rr,runs}];
-fullTWA=Total[eachTWA]/runs;]
+fullTWA=Total[eachTWA]/runs;]*)
+
+
+Timing[fullTWA=0;
+Table[
+AddTo[fullTWA,singleRun[start,Flatten[discInitsOR],obsfun]/runs];
+,{rr,runs}];]
 
 
 mmu=MaxMemoryUsed[]/10.^6;
