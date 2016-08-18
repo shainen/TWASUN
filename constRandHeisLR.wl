@@ -16,7 +16,7 @@ tExps=Range[tminExp,tmaxExp,(tmaxExp-tminExp)/(steps-1)];
 times=10.^#&/@tExps;
 
 
-runs=2;
+runs=10;
 
 
 (* ::Subsubsection:: *)
@@ -44,7 +44,10 @@ numClust=sites/clustSize;
 containedSite[clust_,num_]:=clustSize(clust-1)+num
 
 
-ordPairs=Flatten[Table[Table[{ii,jj},{jj,ii,suClustDim}],{ii,suClustDim}],1];
+containedSites[clust_]:=Table[containedSite[clust,n],{n,clustSize}]
+
+
+(*ordPairs=Flatten[Table[Table[{ii,jj},{jj,ii,suClustDim}],{ii,suClustDim}],1];*)
 
 
 realPairs=Flatten[Table[Table[{ii,jj},{jj,ii,suClustDim}],{ii,suClustDim}],1];
@@ -53,7 +56,16 @@ realPairs=Flatten[Table[Table[{ii,jj},{jj,ii,suClustDim}],{ii,suClustDim}],1];
 imPairs=Flatten[Table[Table[{ii,jj},{jj,ii+1,suClustDim}],{ii,suClustDim}],1];
 
 
-bonds=Table[{n,Mod[n+1,length,1]},{n,length-1}];
+(*bonds=Table[{n,Mod[n+1,length,1]},{n,length-1}];*)
+
+
+siteToClustNum[site_]:=Quotient[site,clustSize,1]+1
+
+
+siteToClustPos[site_]:=Mod[site,clustSize,1]
+
+
+bonds=Flatten[Table[Table[{n,m},{m,n+1,length}],{n,length}],1];
 
 
 (*bonds=Complement[Table[{n,Mod[n+1,length,1]},{n,length}],{{1,2}}];*)
@@ -63,10 +75,13 @@ extBonds=Complement[bonds,Flatten[Tuples[#,2]&/@Table[Table[containedSite[cc,ss]
 ,{ss,clustSize}],{cc,numClust}],1]];
 
 
-clustFromSite[ss_]:=Quotient[ss-1,clustSize]+1
+intBonds=Complement[bonds,extBonds];
 
 
-clustBonds=Map[clustFromSite,extBonds,{2}];
+(*clustFromSite[ss_]:=Quotient[ss-1,clustSize]+1*)
+
+
+(*clustBonds=Map[clustFromSite,extBonds,{2}];*)
 
 
 (*bonds={{1,2}};*)
@@ -79,7 +94,19 @@ clustBonds=Map[clustFromSite,extBonds,{2}];
 clustOp[op_,ss_]:=KroneckerProduct[IdentityMatrix[suLocalDim^(ss-1)],op,IdentityMatrix[suLocalDim^(clustSize-ss)]]
 
 
+siteOp[op_,ss_]:=clustOp[op,siteToClustPos[ss]]
+
+
 dis=20;
+
+
+\[Alpha]=2.5;
+
+
+(*crosCoup[s1_,s2_]:=Abs[s1-s2]^-\[Alpha]+(length-Abs[s1-s2])^-\[Alpha]*)
+
+
+crosCoup[s1_,s2_]:=If[Abs[s1-s2]==1,1,0]
 
 
 localPot=RandomReal[{-dis,dis},length];
@@ -92,8 +119,8 @@ clustOp[PauliMatrix[3],ss]
 
 selfCoup=Table[
 Sum[
-If[MemberQ[bonds,{containedSite[cc,s1],containedSite[cc,s2]}],
-Sum[clustOp[PauliMatrix[ii],s1].clustOp[PauliMatrix[ii],s2],{ii,3}],
+If[MemberQ[intBonds,{containedSite[cc,s1],containedSite[cc,s2]}],
+crosCoup[s1,s2]Sum[clustOp[PauliMatrix[ii],s1].clustOp[PauliMatrix[ii],s2],{ii,3}],
 0
 ]
 ,{s1,clustSize},{s2,clustSize}],{cc,numClust}];
@@ -106,10 +133,11 @@ localHam=potHam+selfCoup;
 crosHam2=PauliMatrix[2];*)
 
 
-crosHam={clustOp[PauliMatrix[#],clustSize]&/@Range[3],clustOp[PauliMatrix[#],1]&/@Range[3]};
+(* ::Input:: *)
+(*(*crosHam={clustOp[PauliMatrix[#],clustSize]&/@Range[3],clustOp[PauliMatrix[#],1]&/@Range[3]};*)*)
 
 
-crosCoup[s1_,s2_]:=1
+crosHamFunc[site_]:=siteOp[PauliMatrix[#],site]&/@Range[3]
 
 
 initKetSite=Riffle[{0,1}&/@Range[sites/2],{1,0}&/@Range[sites/2]];

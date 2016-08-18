@@ -26,7 +26,13 @@ SetDirectory[Directory[]<>"/TWASUN"];
 <<inits.wl
 
 
-<<constRandHeisR.wl
+<<gausInits.wl
+
+
+<<constRandHeisLR.wl
+
+
+(*<<constHeisAllToAllSpin1.wl*)
 
 
 (* ::Subsection:: *)
@@ -36,7 +42,7 @@ SetDirectory[Directory[]<>"/TWASUN"];
 Dynamic[rr]
 
 
-start=makeDSolveStart[localHam,crosHam,observables];
+Timing[start=makeDSolveStart[localHam,crosHamFunc,observables];]
 
 
 (*Timing[eachTWA={};
