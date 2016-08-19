@@ -38,6 +38,7 @@ time math -script ${prj}/runTWA.wl
 rm -r ${prj} 
 """)
 
-with open("../"+runname+".qsub", "w") as f:
-    f.write(qsubfile.substitute(rname=runname,prj=project,tp=topic))
+#with open("../"+runname+".qsub", "w") as f:
+f=open("../"+runname+".qsub", "w")
+f.write(qsubfile.substitute(rname=runname,prj=project,tp=topic))
 
