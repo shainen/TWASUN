@@ -16,7 +16,7 @@ tExps=Range[tminExp,tmaxExp,(tmaxExp-tminExp)/(steps-1)];
 times=10.^#&/@tExps;
 
 
-runs=10;
+runs=100;
 
 
 (* ::Subsubsection:: *)
@@ -32,7 +32,7 @@ sites=length;
 suLocalDim=2;
 
 
-clustSize=3;
+clustSize=2;
 
 
 suClustDim=suLocalDim^clustSize;
@@ -106,7 +106,10 @@ dis=20;
 (*crosCoup[s1_,s2_]:=Abs[s1-s2]^-\[Alpha]+(length-Abs[s1-s2])^-\[Alpha]*)
 
 
-crosCoup[s1_,s2_]:=If[Abs[s1-s2]==1,1,0]
+crosCoup[s1_,s2_]:=Min[Abs[s1-s2],(length-Abs[s1-s2])]^-\[Alpha]
+
+
+(*crosCoup[s1_,s2_]:=If[Abs[s1-s2]\[Equal]1,1,0]*)
 
 
 localPot=RandomReal[{-dis,dis},length];
