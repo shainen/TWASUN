@@ -53,8 +53,16 @@ AppendTo[eachTWA,singleRun[start,Flatten[meanInitsOR],obsfun]];
 fullTWA=Total[eachTWA]/runs;]*)
 
 
+(*Timing[fullTWA=0;
+Table[
+AddTo[fullTWA,singleRun[start,Flatten[discInitsOR],obsfun]/runs];
+,{rr,runs}];]*)
+
+
 Timing[fullTWA=0;
 Table[
+<<constRandHeisLR.wl;
+start=makeDSolveStart[localHam,crosHamFunc,observables];
 AddTo[fullTWA,singleRun[start,Flatten[discInitsOR],obsfun]/runs];
 ,{rr,runs}];]
 
