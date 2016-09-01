@@ -16,7 +16,7 @@ tExps=Range[tminExp,tmaxExp,(tmaxExp-tminExp)/(steps-1)];
 times=10.^#&/@tExps;
 
 
-runs=100;
+runs=1;
 
 
 (* ::Subsubsection:: *)
@@ -32,7 +32,7 @@ sites=length;
 suLocalDim=2;
 
 
-clustSize=2;
+clustSize=3;
 
 
 suClustDim=suLocalDim^clustSize;
@@ -113,6 +113,9 @@ crosCoup[s1_,s2_]:=Min[Abs[s1-s2],(length-Abs[s1-s2])]^-\[Alpha]
 
 
 localPot=RandomReal[{-dis,dis},length];
+
+
+(*localPot=Array[h,length];*)
 
 
 potHam=Table[Sum[localPot[[containedSite[cc,ss]]]

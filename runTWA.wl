@@ -17,7 +17,7 @@ SetDirectory[Directory[]<>"/TWASUN"];
 <<randomSeed.wl
 
 
-<<dynSUNR.wl
+<<dynSUNRI.wl
 
 
 <<ndsolve.wl
@@ -47,7 +47,8 @@ Timing[start=makeDSolveStart[localHam,crosHamFunc,observables];]
 
 (*Timing[eachTWA={};
 Table[
-AppendTo[eachTWA,singleRun[start,Flatten[discInitsOR],obsfun]];
+(h[#]=RandomReal[{-dis,dis}])&/@Range[length];
+AppendTo[eachTWA,singleRun[start,Flatten[meanInitsOR],obsfun]];
 ,{rr,runs}];
 fullTWA=Total[eachTWA]/runs;]*)
 
