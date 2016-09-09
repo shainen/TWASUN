@@ -8,10 +8,10 @@
 (*setup*)
 
 
-(*SetDirectory[NotebookDirectory[]]*)
+SetDirectory[NotebookDirectory[]]
 
 
-SetDirectory[Directory[]<>"/TWASUN"];
+(*SetDirectory[Directory[]<>"/TWASUN"];*)
 
 
 <<randomSeed.wl
@@ -29,7 +29,10 @@ SetDirectory[Directory[]<>"/TWASUN"];
 <<gausInits.wl
 
 
-<<constRandHeisLR.wl
+(*<<constBose2dSU3.wl*)
+
+
+<<constJonathan.wl
 
 
 (*<<constHeisAllToAllSpin1.wl*)
@@ -47,24 +50,24 @@ Timing[start=makeDSolveStart[localHam,crosHamFunc,observables];]
 
 (*Timing[eachTWA={};
 Table[
-(h[#]=RandomReal[{-dis,dis}])&/@Range[length];
-AppendTo[eachTWA,singleRun[start,Flatten[meanInitsOR],obsfun]];
+AppendTo[eachTWA,singleRun[start,Flatten[gausInitsOR],obsfun]];
 ,{rr,runs}];
-fullTWA=Total[eachTWA]/runs;]*)
-
-
-(*Timing[fullTWA=0;
-Table[
-AddTo[fullTWA,singleRun[start,Flatten[discInitsOR],obsfun]/runs];
-,{rr,runs}];]*)
+fullTWA=Total[eachTWA]/runs;
+varTWA=Variance[eachTWA];]*)
 
 
 Timing[fullTWA=0;
 Table[
+AddTo[fullTWA,singleRun[start,Flatten[gausInitsOR],obsfun]/runs];
+,{rr,runs}];]
+
+
+(*Timing[fullTWA=0;
+Table[
 <<constRandHeisLR.wl;
 start=makeDSolveStart[localHam,crosHamFunc,observables];
 AddTo[fullTWA,singleRun[start,Flatten[discInitsOR],obsfun]/runs];
-,{rr,runs}];]
+,{rr,runs}];]*)
 
 
 mmu=MaxMemoryUsed[]/10.^6;

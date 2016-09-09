@@ -58,12 +58,15 @@ crossForHam[a_,b_,cHam1_,cHam2_]:=dotForHam[a,cHam1]varForHam[b,cHam2]
 makeDSolveStart = Function[{localHam, crosHamFunc, observables},
    eqsRI = Table[
      matLocal = dotForHam[ss, localHam[[ss]]];
-     matCross=Sum[
-Sum[
-otherSite=(Complement[pairs, {inSites}][[1]]);
-crosCoup[inSites,otherSite]Sum[crossForHam[ss,siteToClustNum[otherSite],crosHamFunc[inSites][[n]], crosHamFunc[otherSite][[n]]],{n,Length[crosHamFunc[inSites]]}]
-,{pairs,Cases[extBonds,{_,inSites}|{inSites,_}]}]
-,{inSites, containedSites[ss]}];
+     matCross=
+     Sum[
+       Sum[
+         otherSite=(Complement[pairs, {inSites}][[1]]);
+         crosCoup[inSites,otherSite]Sum[
+                                      crossForHam[ss,siteToClustNum[otherSite],crosHamFunc[inSites][[n]], crosHamFunc[otherSite][[n]]]
+                                    ,{n,Length[crosHamFunc[inSites]]}]
+       ,{pairs,Cases[extBonds,{_,inSites}|{inSites,_}]}]
+     ,{inSites, containedSites[ss]}];
      matEq = matLocal + matCross;
      {cR[ss][#1, #2]'[t] == matEq[[1,#1, #2]] & @@@ realPairs , cI[ss][#1, #2]'[t] == matEq[[2,#1, #2]] & @@@ imPairs}
      , {ss, numClust}];
