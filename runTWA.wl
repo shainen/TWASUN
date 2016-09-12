@@ -8,10 +8,10 @@
 (*setup*)
 
 
-SetDirectory[NotebookDirectory[]]
+(*SetDirectory[NotebookDirectory[]]*)
 
 
-(*SetDirectory[Directory[]<>"/TWASUN"];*)
+SetDirectory[Directory[]<>"/TWASUN"];
 
 
 <<randomSeed.wl

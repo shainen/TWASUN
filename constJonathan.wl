@@ -16,14 +16,14 @@ tExps=Range[tminExp,tmaxExp,(tmaxExp-tminExp)/(steps-1)];
 times=10.^#&/@tExps;*)
 
 
-runs=10;
+runs=100;
 
 
 (* ::Subsubsection:: *)
 (*vars*)
 
 
-length=10;
+length=2;
 
 
 sites=length^2;
@@ -103,7 +103,7 @@ intBonds=Complement[bonds,extBonds];
 intU=1;
 
 
-hopJ=-0.1/4;
+hopJ=-0.1;
 
 
 (* ::Subsubsection:: *)
@@ -119,10 +119,10 @@ matSy=SparseArray[I{{0,-1/Sqrt[2],0},{1/Sqrt[2],0,-1/Sqrt[2]},{0,1/Sqrt[2],0}}];
 matSz=SparseArray[{{1,0,0},{0,0,0},{0,0,-1}}];
 
 
-intMat=intU/2*matSz.matSz;
+intMat=intU/2*(matSz.matSz-IdentityMatrix[3]);
 
 
-hopMats={matSx,matSy};
+hopMats=Sqrt[2]{matSx,matSy};
 
 
 (* ::Subsubsection:: *)
@@ -181,7 +181,7 @@ crosHam2=PauliMatrix[2];*)
 crosHamFunc[site_]:=Table[siteOp[mats,site],{mats,hopMats}]
 
 
-initKetSite=Table[{1,0,0},{sites}];
+initKetSite=Table[{0,1,0},{sites}];
 
 
 (*initKet=Table[
@@ -213,6 +213,6 @@ obsfun=Function[{values},
 avSx=Sqrt[2](values[[1]]+values[[2]]);
 avSy=Sqrt[2](values[[3]]+values[[4]]);
 avSz=(values[[5]]-values[[6]]);
-sumSq=((Total[avSx])^2+(Total[avSy])^2-(Total[avSx^2]+Total[avSy^2]))/2/sites^2;
+sumSq=((Total[avSx])^2+(Total[avSy])^2-(Total[avSx^2]+Total[avSy^2]))/sites^2;
 {avSx,avSy,avSz,sumSq}
 ];
