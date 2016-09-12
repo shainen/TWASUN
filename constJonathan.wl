@@ -103,7 +103,7 @@ intBonds=Complement[bonds,extBonds];
 intU=1;
 
 
-hopJ=-0.1;
+hopJ=-0.2/6;
 
 
 (* ::Subsubsection:: *)
@@ -122,7 +122,7 @@ matSz=SparseArray[{{1,0,0},{0,0,0},{0,0,-1}}];
 intMat=intU/2*(matSz.matSz-IdentityMatrix[3]);
 
 
-hopMats=Sqrt[2]{matSx,matSy};
+hopMats={matSx,matSy};
 
 
 (* ::Subsubsection:: *)

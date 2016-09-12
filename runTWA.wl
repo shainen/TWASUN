@@ -32,7 +32,10 @@ SetDirectory[Directory[]<>"/TWASUN"];
 (*<<constBose2dSU3.wl*)
 
 
-<<constJonathan.wl
+(*<<constJonathan.wl*)
+
+
+<<constRepSU3.wl
 
 
 (*<<constHeisAllToAllSpin1.wl*)
