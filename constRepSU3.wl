@@ -116,7 +116,7 @@ matSy=SparseArray[I{{0,-1/Sqrt[2],0},{1/Sqrt[2],0,-1/Sqrt[2]},{0,1/Sqrt[2],0}}];
 matSz=SparseArray[{{1,0,0},{0,0,0},{0,0,-1}}];
 
 
-intMat=intU/2*(matSz.matSz-IdentityMatrix[3]);
+intMat=intU/2*(matSz.matSz);
 
 
 hopMats={matSx,matSy};
