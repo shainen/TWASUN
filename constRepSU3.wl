@@ -116,10 +116,16 @@ matSy=SparseArray[I{{0,-1/Sqrt[2],0},{1/Sqrt[2],0,-1/Sqrt[2]},{0,1/Sqrt[2],0}}];
 matSz=SparseArray[{{1,0,0},{0,0,0},{0,0,-1}}];
 
 
-intMat=intU/2*(matSz.matSz);
+(*intMat=intU/2*(matSz.matSz);*)
 
 
-hopMats={matSx,matSy};
+intMat=intU/2*(matSy.matSy);
+
+
+(*hopMats={matSx,matSy};*)
+
+
+hopMats={matSz,matSx};
 
 
 (* ::Subsubsection:: *)
@@ -178,7 +184,10 @@ crosHam2=PauliMatrix[2];*)
 crosHamFunc[site_]:=Table[siteOp[mats,site],{mats,hopMats}]
 
 
-initKetSite=Table[{1/2,1/Sqrt[2],1/2},{sites}];
+(*initKetSite=Table[{1/2,1/Sqrt[2],1/2},{sites}];*)
+
+
+initKetSite=Table[{1,0,0},{sites}];
 
 
 (*initKet=Table[
@@ -212,5 +221,5 @@ avSy=Sqrt[2](values[[3]]+values[[4]]);
 avSz=(values[[5]]-values[[6]]);
 (*sumSq=((Total[avSx])^2+(Total[avSy])^2-(Total[avSx^2]+Total[avSy^2]))/sites^2;
 *)
-{avSx,avSy,avSz,avSz^2}
+{avSx,avSy,avSz,avSx^2,avSy^2,avSz^2}
 ];
