@@ -1,7 +1,7 @@
 (* ::Package:: *)
 
 genMultNormRands=Function[{meanVec,covMat,numRands},
-Block[{covnrot=Eigensystem[N[covMat]],rands,rotRands},
+Block[{covnrot=Chop[Eigensystem[N[covMat]]],rands,rotRands},
 rands=If[#==0.,Table[0,{numRands}],RandomVariate[NormalDistribution[0,#],numRands]]&/@Sqrt[covnrot[[1]]];
 rotRands=covnrot[[2]]\[Transpose].rands+meanVec;
 rotRands
