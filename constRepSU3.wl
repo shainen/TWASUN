@@ -16,7 +16,7 @@ tExps=Range[tminExp,tmaxExp,(tmaxExp-tminExp)/(steps-1)];
 times=10.^#&/@tExps;*)
 
 
-runs=100;
+runs=2;
 
 
 (* ::Subsubsection:: *)
@@ -205,7 +205,10 @@ initKet=initKetSite;
 (*siteObs=PauliMatrix[3]*)
 
 
-basicObs=Table[{cR[ss][1,2],cR[ss][2,3],cR[ss][1,2],cR[ss][2,3],cR[ss][1,1],cR[ss][3,3]},{ss,numClust}]\[Transpose];
+(*basicObs=Table[{cR[ss][1,2],cR[ss][2,3],cI[ss][1,2],cI[ss][2,3],cR[ss][1,1],cR[ss][3,3]},{ss,numClust}]\[Transpose];*)
+
+
+basicObs={Table[cR[ss]@@@realPairs,{ss,2}]\[Transpose],Table[cI[ss]@@@imPairs,{ss,2}]\[Transpose]};
 
 
 (*multBy=Table[Diagonal[clustOp[numOp,n]],{n,clustSize}];*)
@@ -214,12 +217,27 @@ basicObs=Table[{cR[ss][1,2],cR[ss][2,3],cR[ss][1,2],cR[ss][2,3],cR[ss][1,1],cR[s
 (*multByCross=Table[Diagonal[clustOp[PauliMatrix[3],n[[1]]].clustOp[PauliMatrix[3],n[[2]]]],{n,Flatten[Table[Table[{ii, jj}, {jj, ii+1, clustSize}], {ii, clustSize}], 1]}];*)
 
 
+coToLiR[co_]:=Position[realPairs,co]
+
+
+coToLiI[co_]:=Position[imPairs,co]
+
+
+matToVars[mat_]:=Total[(If[Length[coToLiR[#1]]==1,2Re[#2]values[[1,coToLiR[#1][[1,1]]]],0]/(1+KroneckerDelta[#1[[1]],#1[[2]]])+If[Length[coToLiI[#1]]==1,-2Im[#2]values[[2,coToLiI[#1][[1,1]]]],0])& @@@ Drop[ArrayRules[mat], -1]]
+
+
 observables=basicObs;
 obsfun=Function[{values},
-avSx=Sqrt[2](values[[1]]+values[[2]]);
+(*avSx=Sqrt[2](values[[1]]+values[[2]]);
 avSy=Sqrt[2](values[[3]]+values[[4]]);
-avSz=(values[[5]]-values[[6]]);
+avSz=(values[[5]]-values[[6]]);*)
+avSx=matToVars[matSx];
+avSy=matToVars[matSy];
+avSz=matToVars[matSz];
+avSxSq=matToVars[matSx.matSx];
+avSySq=matToVars[matSy.matSy];
+avSzSq=matToVars[matSz.matSz];
 (*sumSq=((Total[avSx])^2+(Total[avSy])^2-(Total[avSx^2]+Total[avSy^2]))/sites^2;
 *)
-{avSx,avSy,avSz,avSx^2,avSy^2,avSz^2}
+{avSx,avSy,avSz,avSxSq,avSySq,avSzSq,avSx^2,avSy^2,avSz^2}
 ];
