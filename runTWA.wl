@@ -29,13 +29,13 @@ SetDirectory[Directory[]<>"/TWASUN"];
 <<gausInits.wl
 
 
-(*<<constBose2dSU3.wl*)
+<<constBose2dSU3.wl
 
 
 (*<<constJonathan.wl*)
 
 
-<<constRepSU3.wl
+(*<<constRepSU3.wl*)
 
 
 (*<<constHeisAllToAllSpin1.wl*)
