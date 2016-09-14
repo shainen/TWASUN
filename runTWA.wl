@@ -59,9 +59,13 @@ fullTWA=Total[eachTWA]/runs;
 varTWA=Variance[eachTWA];]*)
 
 
-Timing[fullTWA=0;
+Timing[
+fullTWA=0;
+squares=0;
 Table[
-AddTo[fullTWA,singleRun[start,Flatten[gausInitsOR],obsfun]/runs];
+newObs=singleRun[start,Flatten[discInitsOR],obsfun];
+AddTo[fullTWA,newObs/runs];
+AddTo[squares,newObs^2/runs];
 ,{rr,runs}];]
 
 
@@ -80,6 +84,7 @@ SetDirectory[ParentDirectory[]];
 
 
 allData=fullTWA;
+stError=Sqrt[squares-fullTWA^2]/Sqrt[runs];
 
 
-Save["dataTWA.dat",{mmu,allData}];
+Save["dataTWA.dat",{mmu,allData,stError}];

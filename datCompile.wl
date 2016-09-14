@@ -42,10 +42,31 @@ avg=Total[eachOne]/Length[list];
 )
 
 
+importE[rname_,runs_,ignore_]:=(
+list=Complement[Range[0,runs-1],ignore];
+eachOne={};
+Do[
+tempAll=0;
+tempSq=0;
+Get["/data/shainen/"<>rname<>"/r"<>ToString[kk]<>"/dataTWA.dat"];
+AddTo[tempAll,allData];
+AddTo[tempSq,stError^2];
+,{rr,list}];
+mean=Total[tempAll]/Length[list];
+stEr=Sqrt[tempSq]/Length[list];
+)
+
+
 dir=StringSplit[ParentDirectory[],"/"][[5]];
 
 
 import[dir,100,{},10];
 
 
+importE[dir,100,{}];
+
+
 Save["/data/shainen/"<>dir<>"compiled.dat",{avg,eachOne}];
+
+
+Save["/data/shainen/"<>dir<>"_compiled.dat",{mean,stEr}];
