@@ -48,7 +48,7 @@ eachOne={};
 Do[
 tempAll=0;
 tempSq=0;
-Get["/data/shainen/"<>rname<>"/r"<>ToString[kk]<>"/dataTWA.dat"];
+Get["/data/shainen/"<>rname<>"/r"<>ToString[rr]<>"/dataTWA.dat"];
 AddTo[tempAll,allData];
 AddTo[tempSq,stError^2];
 ,{rr,list}];
