@@ -44,7 +44,6 @@ avg=Total[eachOne]/Length[list];
 
 importE[rname_,runs_,ignore_]:=(
 list=Complement[Range[0,runs-1],ignore];
-eachOne={};
 Do[
 tempAll=0;
 tempSq=0;
@@ -52,7 +51,7 @@ Get["/data/shainen/"<>rname<>"/r"<>ToString[rr]<>"/dataTWA.dat"];
 AddTo[tempAll,allData];
 AddTo[tempSq,stError^2];
 ,{rr,list}];
-mean=Total[tempAll]/Length[list];
+mean=tempAll/Length[list];
 stEr=Sqrt[tempSq]/Length[list];
 )
 
