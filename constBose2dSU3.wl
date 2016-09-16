@@ -5,7 +5,10 @@
 
 tmax=300;
 steps=1000;
-times=Range[0,tmax,tmax/(steps-1)];
+dt=tmax/(steps-1);
+times=Range[0,tmax,dt];
+split=100;
+splitTimes=Partition[times,steps/split];
 
 
 (*tminExp=-2;
@@ -54,6 +57,12 @@ realPairs=Flatten[Table[Table[{ii,jj},{jj,ii,suClustDim}],{ii,suClustDim}],1];
 
 
 imPairs=Flatten[Table[Table[{ii,jj},{jj,ii+1,suClustDim}],{ii,suClustDim}],1];
+
+
+coToLiR[co_]:=Position[realPairs,co]
+
+
+coToLiI[co_]:=Position[imPairs,co]
 
 
 (*bonds=Table[{n,Mod[n+1,length,1]},{n,length-1}];*)
@@ -233,7 +242,10 @@ initKet=initKetSite;
 (*siteObs=PauliMatrix[3]*)
 
 
-basicObs=Table[cR[ss][#,#],{ss,numClust}]&/@Range[suClustDim];
+(*basicObs=Table[cR[ss][#,#],{ss,numClust}]&/@Range[suClustDim];*)
+
+
+allObs={Table[cR[ss]@@@realPairs,{ss,numClust}]\[Transpose],Table[cI[ss]@@@imPairs,{ss,numClust}]\[Transpose]};
 
 
 multBy=Table[Diagonal[clustOp[numOp,n]],{n,clustSize}];
@@ -242,9 +254,13 @@ multBy=Table[Diagonal[clustOp[numOp,n]],{n,clustSize}];
 (*multByCross=Table[Diagonal[clustOp[PauliMatrix[3],n[[1]]].clustOp[PauliMatrix[3],n[[2]]]],{n,Flatten[Table[Table[{ii, jj}, {jj, ii+1, clustSize}], {ii, clustSize}], 1]}];*)
 
 
-observables=basicObs;
+matToVars[mat_, clVars_] := Total[(If[Length[coToLiR[#1]] == 1, 2 Re[#2] clVars[[1, coToLiR[#1][[1, 1]]]], 0]/(1 + KroneckerDelta[#1[[1]], #1[[2]]]) + If[Length[coToLiI[#1]] == 1, -2 Im[#2] clVars[[2, coToLiI[#1][[1, 1]]]], 0]) & @@@ Drop[ArrayRules[mat], -1]]
+
+
+observables=allObs;
 obsfun=Function[{values},
-avNum=Flatten[(#.values&/@multBy)\[Transpose],1];
+(*avNum=Flatten[(#.values&/@multBy)\[Transpose],1];*)
+avNum=matToVars[numOp,values];
 leftmright=Flatten[Table[If[y<=0,1,-1],{x,5},{y,-(length-1)/2,(length-1)/2}]];
 numToAv=5;
 imb=leftmright.avNum[[length*(length-numToAv)/2+1;;length*(length+numToAv)/2]];

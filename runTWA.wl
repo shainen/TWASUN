@@ -59,11 +59,33 @@ fullTWA=Total[eachTWA]/runs;
 varTWA=Variance[eachTWA];]*)
 
 
-Timing[
+(*Timing[
 fullTWA=0;
 squares=0;
 Table[
 newObs=singleRun[start,Flatten[discInitsOR],obsfun];
+AddTo[fullTWA,newObs/runs];
+AddTo[squares,newObs^2/runs];
+,{rr,runs}];]*)
+
+
+Timing[
+fullTWA=0;
+squares=0;
+firstTime=First@splitTimes;
+nextTimes=Drop[splitTimes,1];
+Table[
+stuff=singleRunShort[start,discInitsOR,firstTime];
+resR=Transpose[stuff[[1]],{2,3,1}];
+resI=Transpose[stuff[[2]],{2,3,1}];
+(*allVars={singleRunShort[start,discInitsOR,firstTime]};*)
+Table[
+stuff=singleRunShort[start,Flatten[discInitsMid[First[trange]-dt,{Last[resR],Last[resI]}]],trange];
+resR=Join[resR,Transpose[stuff[[1]],{2,3,1}]];
+resI=Join[resI,Transpose[stuff[[2]],{2,3,1}]];
+,{trange,nextTimes}];
+allVars={Transpose[resR,{3,1,2}],Transpose[resI,{3,1,2}]};
+newObs=Chop[obsfun[allVars]];
 AddTo[fullTWA,newObs/runs];
 AddTo[squares,newObs^2/runs];
 ,{rr,runs}];]

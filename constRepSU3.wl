@@ -208,7 +208,7 @@ initKet=initKetSite;
 (*basicObs=Table[{cR[ss][1,2],cR[ss][2,3],cI[ss][1,2],cI[ss][2,3],cR[ss][1,1],cR[ss][3,3]},{ss,numClust}]\[Transpose];*)
 
 
-basicObs={Table[cR[ss]@@@realPairs,{ss,2}]\[Transpose],Table[cI[ss]@@@imPairs,{ss,2}]\[Transpose]};
+basicObs={Table[cR[ss]@@@realPairs,{ss,numClust}]\[Transpose],Table[cI[ss]@@@imPairs,{ss,numClust}]\[Transpose]};
 
 
 (*multBy=Table[Diagonal[clustOp[numOp,n]],{n,clustSize}];*)

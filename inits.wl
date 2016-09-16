@@ -33,3 +33,6 @@ discRandOI[s_,i_,j_]:=randFromMat[matI[i,j],initKet[[s]]]
 
 
 discInitsOR := Table[{cR[ss][#1, #2][0] == discRandOR[ss,#1,#2] & @@@ realPairs,cI[ss][#1, #2][0] == discRandOI[ss,#1,#2] & @@@ imPairs}, {ss, numClust}]
+
+
+discInitsMid[st_,obs_] := Table[{cR[ss][#1, #2][st] == obs[[1,coToLiR[{#1,#2}][[1,1]],ss]] & @@@ realPairs,cI[ss][#1, #2][st] ==obs[[2,coToLiI[{#1,#2}][[1,1]],ss]] & @@@ imPairs}, {ss, numClust}]
