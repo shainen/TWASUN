@@ -59,13 +59,13 @@ stEr=Sqrt[tempSq]/Length[list];
 dir=StringSplit[ParentDirectory[],"/"][[5]];
 
 
-import[dir,100,{},10];
+(*import[dir,100,{},10];*)
 
 
 importE[dir,100,{}];
 
 
-Save["/data/shainen/"<>dir<>"compiled.dat",{avg,eachOne}];
+(*Save["/data/shainen/"<>dir<>"compiled.dat",{avg,eachOne}];*)
 
 
 Save["/data/shainen/"<>dir<>"_compiled.dat",{mean,stEr}];
